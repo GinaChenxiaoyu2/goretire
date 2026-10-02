@@ -1,7 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { ConfigProvider } from "antd";
-import App from "./App";
+import { BrowserRouter } from "react-router-dom";
+import App from "./app/App";
 import "antd/dist/reset.css";
 import "../assets/site.scss";
 
@@ -24,7 +25,12 @@ createRoot(root).render(
         }
       }}
     >
-      <App />
+      <BrowserRouter
+        basename={__APP_BASE_PATH__}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
+        <App />
+      </BrowserRouter>
     </ConfigProvider>
   </StrictMode>
 );

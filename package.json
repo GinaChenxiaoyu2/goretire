@@ -11,7 +11,8 @@
   "dependencies": {
     "antd": "^5.24.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^6.30.6"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

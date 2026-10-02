@@ -1,78 +1,8 @@
-import { useEffect, useState } from "react";
-import { Avatar, Card, List, Menu, Tag, Typography } from "antd";
-
-const topics = [
-  { label: "A股行情", accent: true },
-  { label: "黄金行情", accent: true },
-  { label: "港美股行情" },
-  { label: "汇率" },
-  { label: "热点事件" },
-  { label: "大V持仓" },
-  { label: "打新日历" },
-  { label: "财报日历" },
-  { label: "AI 日报", accent: true },
-  { label: "二手房价格推送" }
-];
-
-const baseKnowledge = [
-  { icon: "⌁", title: "房产拐点知识库", detail: "周期观察 · 城市数据 · 决策框架" },
-  { icon: "✦", title: "AI 每日日报", detail: "产品动态 · 行业趋势 · 实用工具" }
-];
-
-const communityGroups = [
-  {
-    title: "每日交流",
-    subtitle: "一起聊市场，也聊变化",
-    links: ["A股交流", "港美股交流", "AI 交流"]
-  },
-  {
-    title: "金融工具",
-    subtitle: "理解工具，理性做选择",
-    links: ["银行咨询", "融资服务", "节税专区", "香港港险"]
-  },
-  {
-    title: "工作生活",
-    subtitle: "让校友关系产生真实价值",
-    links: ["校友租房", "招聘内推", "香港身份 DIY", "别墅轰趴"]
-  }
-];
-
-const navigation = [
-  { href: "#home", label: "Slogan" },
-  { href: "#insight", label: "内容观点" },
-  { href: "#community", label: "社群服务" },
-  { href: "#mutual-aid", label: "资源互助" }
-];
-
-function SiteHeader({ isAliPage, activeSection, onNavigate }: {
-  isAliPage: boolean;
-  activeSection: string;
-  onNavigate: (key: string) => void;
-}) {
-  return (
-    <header className="site-header" data-header>
-      <div className="shell header-inner">
-        <a
-          className="nav-brand"
-          href={isAliPage ? "../index.html" : "#home"}
-          aria-label={`一起提前退休 大厂社区，${isAliPage ? "回到主页" : "回到页面顶部"}`}
-        >
-          <Avatar className="brand-symbol" size={38} aria-hidden="true">退</Avatar>
-          <Typography.Text className="brand-name" strong>一起提前退休</Typography.Text>
-          <Typography.Text className="brand-caption">大厂社区</Typography.Text>
-        </a>
-        <Menu
-          className="top-nav"
-          aria-label="主要导航"
-          mode="horizontal"
-          selectedKeys={[activeSection]}
-          items={navigation.map((item) => ({ key: item.href, label: <a href={item.href}>{item.label}</a> }))}
-          onClick={({ key }) => onNavigate(key)}
-        />
-      </div>
-    </header>
-  );
-}
+import { useEffect } from "react";
+import { Avatar, Card, List, Tag, Typography } from "antd";
+import SiteFooter from "../components/site/SiteFooter";
+import SiteHeader from "../components/site/SiteHeader";
+import { aliKnowledge, baseKnowledge, communityGroups, topics, type PortalVariant } from "../data/portalContent";
 
 function HeroSection() {
   return (
@@ -101,9 +31,9 @@ function HeroSection() {
   );
 }
 
-function InsightSection({ isAliPage }: { isAliPage: boolean }) {
-  const knowledge = isAliPage
-    ? [...baseKnowledge, { icon: "⊟", title: "离职员工 SOP", detail: "离职准备 · 交接清单 · 离职后衔接" }]
+function InsightSection({ variant }: { variant: PortalVariant }) {
+  const knowledge = variant === "ali"
+    ? [...baseKnowledge, aliKnowledge]
     : baseKnowledge;
 
   return (
@@ -185,7 +115,7 @@ function MutualAidSection() {
         </div>
         <Card className="mutual-action" variant="outlined">
           <Typography.Text className="action-label">资源合作</Typography.Text>
-          <Typography.Paragraph>欢迎wx联系 <span className="contact-id">antfin2018</span></Typography.Paragraph>
+          <Typography.Paragraph>欢迎微信联系： <span className="contact-id">antfin2018</span></Typography.Paragraph>
           <div className="action-line" aria-hidden="true"><span /></div>
           <Typography.Text className="mutual-action-note" type="secondary">大家一起互助互利，早日实现提前退休</Typography.Text>
         </Card>
@@ -194,29 +124,7 @@ function MutualAidSection() {
   );
 }
 
-function SiteFooter({ isAliPage }: { isAliPage: boolean }) {
-  return (
-    <footer className="site-footer">
-      <div className="shell footer-inner">
-        <div className="footer-left"><a className="footer-wordmark" href="#home">一起提前退休</a></div>
-        <div className="footer-center">
-          <p>提升认知 · 拉平信息差 · 互助避坑 · 善用金融工具 · 探索更自由人生</p>
-          <span className="filing-number">
-            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">浙ICP备2026071844号-1</a>
-          </span>
-        </div>
-        <div className="footer-qrcode">
-          <img src={isAliPage ? "../wxpic.png" : "wxpic.png"} alt="提钱退休笔记 微信公众号二维码" />
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-export default function App() {
-  const isAliPage = /(?:^|\/)ali\/?$/.test(window.location.pathname);
-  const [activeSection, setActiveSection] = useState("#home");
-
+export default function PortalPage({ variant }: { variant: PortalVariant }) {
   useEffect(() => {
     const reveals = [...document.querySelectorAll<HTMLElement>(".reveal")];
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -240,34 +148,7 @@ export default function App() {
       reveals.forEach((item) => revealObserver?.observe(item));
     }
 
-    const links = [...document.querySelectorAll<HTMLAnchorElement>(".top-nav a")];
-    const sections = links.map((link) => document.querySelector<HTMLElement>(link.getAttribute("href") || "")).filter((section): section is HTMLElement => Boolean(section));
-    let ticking = false;
-
-    const updateActiveNav = () => {
-      const scrollY = window.scrollY;
-      const viewportHeight = window.innerHeight;
-      let activeIndex = 0;
-      sections.forEach((section, index) => {
-        const sectionTop = section.getBoundingClientRect().top + scrollY;
-        const sectionBottom = sectionTop + section.getBoundingClientRect().height;
-        if (scrollY + viewportHeight * 0.3 >= sectionTop && scrollY < sectionBottom) activeIndex = index;
-      });
-      setActiveSection(links[activeIndex]?.getAttribute("href") || "#home");
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (ticking) return;
-      window.requestAnimationFrame(updateActiveNav);
-      ticking = true;
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    updateActiveNav();
-
     return () => {
-      window.removeEventListener("scroll", onScroll);
       revealObserver?.disconnect();
     };
   }, []);
@@ -275,14 +156,14 @@ export default function App() {
   return (
     <>
       <a className="skip-link" href="#main">跳到主要内容</a>
-      <SiteHeader isAliPage={isAliPage} activeSection={activeSection} onNavigate={setActiveSection} />
+      <SiteHeader variant={variant} />
       <main id="main">
         <HeroSection />
-        <InsightSection isAliPage={isAliPage} />
+        <InsightSection variant={variant} />
         <CommunitySection />
         <MutualAidSection />
       </main>
-      <SiteFooter isAliPage={isAliPage} />
+      <SiteFooter />
     </>
   );
 }
