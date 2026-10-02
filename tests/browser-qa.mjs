@@ -35,12 +35,26 @@ await page.waitForTimeout(800);
 await page.screenshot({ path: path.join(output, "mobile.png"), fullPage: true });
 const mobile = await page.evaluate(() => ({ width: document.documentElement.scrollWidth, viewport: window.innerWidth, heroVisible: document.querySelector("#home").getBoundingClientRect().height > 0 }));
 
+await page.goto("http://127.0.0.1:8774/ali/", { waitUntil: "networkidle" });
+const aliPage = await page.evaluate(() => ({
+  width: document.documentElement.scrollWidth,
+  viewport: window.innerWidth,
+  knowledgeItems: document.querySelectorAll(".knowledge-item").length,
+  qrLoaded: (() => {
+    const image = document.querySelector(".footer-qrcode img");
+    return image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0;
+  })()
+}));
+
 if (desktop.width > desktop.viewport) throw new Error("desktop horizontal overflow");
 if (Math.abs(stickyHeaderTop) > 1) throw new Error("header should remain fixed while scrolling");
 if (mobile.width > mobile.viewport) throw new Error("mobile horizontal overflow");
+if (aliPage.width > aliPage.viewport) throw new Error("Ali page horizontal overflow");
+if (aliPage.knowledgeItems !== 3) throw new Error("Ali page should include the employee departure SOP");
+if (!aliPage.qrLoaded) throw new Error("Ali page QR image should load from the nested route");
 if (desktop.topLevelSections.join(",") !== "home,insight,community,mutual-aid") throw new Error("page should have exactly four top-level modules");
 if (desktop.hasLoginCopy) throw new Error("login copy should not appear");
 if (errors.length) throw new Error("browser errors: " + errors.join(" | "));
 
-console.log(JSON.stringify({ desktop, mobile, stickyHeaderTop, errors }, null, 2));
+console.log(JSON.stringify({ desktop, mobile, aliPage, stickyHeaderTop, errors }, null, 2));
 await browser.close();

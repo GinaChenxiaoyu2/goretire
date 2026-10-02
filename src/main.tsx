@@ -1,0 +1,30 @@
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { ConfigProvider } from "antd";
+import App from "./App";
+import "antd/dist/reset.css";
+import "../assets/site.scss";
+
+const root = document.getElementById("root");
+
+if (!root) throw new Error("Missing React root element");
+
+createRoot(root).render(
+  <StrictMode>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#ff6a00",
+          colorText: "#211811",
+          colorTextSecondary: "#74675e",
+          colorBorder: "#ead9cc",
+          colorBgContainer: "#fffdfa",
+          borderRadius: 8,
+          fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif'
+        }
+      }}
+    >
+      <App />
+    </ConfigProvider>
+  </StrictMode>
+);
