@@ -202,11 +202,15 @@ button, input, textarea, select { font: inherit; }
 .community-invites-heading .section-index { margin-bottom: 8px; }
 .community-invites-heading h2 { margin: 0; color: var(--ink); font-size: 30px; font-weight: 800; line-height: 1.3; }
 .community-invites-heading > .ant-typography { max-width: 400px; margin: 0 0 4px; color: var(--muted); font-size: var(--text-base); }
-.community-invites-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.community-invites-heading .invite-follow-title { margin: 0 0 4px; color: var(--ink); font-size: 20px; font-weight: 750; }
+.community-invites-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 20px; }
 .community-invite-card { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); align-items: center; justify-items: center; gap: 22px; min-height: 264px; padding: 20px 26px; border: 1px solid #ffd0ae; border-radius: 14px; background: rgba(255, 255, 255, .84); box-shadow: 0 12px 28px rgba(94, 48, 17, .07); }
 .community-invite-card img { display: block; width: min(100%, 220px); height: 220px; object-fit: contain; border-radius: 8px; }
 .community-invite-card:nth-child(2) img { width: min(100%, 300px); height: auto; max-height: 170px; }
 .community-invite-card .ant-typography { color: var(--ink); font-size: 18px; font-weight: 750; text-align: center; }
+.community-invite-card .invite-copy { display: grid; justify-items: center; align-content: center; gap: 12px; }
+.community-invite-card .invite-notes { margin: 0; padding: 0 0 0 18px; color: #756a62; font-size: 13px; line-height: 1.7; text-align: left; list-style: decimal; }
+.community-invite-card .invite-notes li { padding-left: 2px; }
 
 .site-footer { border-top: 1px solid var(--line); background: var(--paper); }
 .footer-inner { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 20px 0 12px; }

@@ -57,7 +57,8 @@ module.exports = (_environment, arguments_) => ({
         { from: path.join(root, "assets", "hk-ipo-july.png"), to: "assets/hk-ipo-july.png" },
         { from: path.join(root, "assets", "china-ai.png"), to: "assets/china-ai.png" },
         { from: path.join(root, "assets", "bot-huilv.png"), to: "assets/bot-huilv.png" },
-        { from: path.join(root, "assets", "ipo-review.png"), to: "assets/ipo-review.png" }
+        { from: path.join(root, "assets", "ipo-review.png"), to: "assets/ipo-review.png" },
+        { from: path.join(root, "assets", "*.jpg"), to: "assets/[name][ext]", toType: "template" }
       ]
     })
   ],
