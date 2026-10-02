@@ -1,8 +1,11 @@
-import { useEffect } from "react";
-import { Avatar, Card, List, Tag, Typography } from "antd";
+import { useEffect, useRef, useState } from "react";
+import { Avatar, Button, Card, Carousel, Image, List, Popover, Typography } from "antd";
+import type { CarouselRef } from "antd/es/carousel";
+import CommunityInviteSection from "../components/site/CommunityInviteSection";
 import SiteFooter from "../components/site/SiteFooter";
 import SiteHeader from "../components/site/SiteHeader";
-import { aliKnowledge, baseKnowledge, communityGroups, topics, type PortalVariant } from "../data/portalContent";
+import { portalContent, type PortalVariant } from "../data/portalContent";
+import assetUrl from "../utils/assetUrl";
 
 function HeroSection() {
   return (
@@ -32,9 +35,11 @@ function HeroSection() {
 }
 
 function InsightSection({ variant }: { variant: PortalVariant }) {
+
+    const [activeTopic, setActiveTopic] = useState<string>(portalContent.topics[0].label);
   const knowledge = variant === "ali"
-    ? [...baseKnowledge, aliKnowledge]
-    : baseKnowledge;
+      ? [...portalContent.knowledge.shared, portalContent.knowledge.ali]
+      : [...portalContent.knowledge.shared];
 
   return (
     <section className="insight section" id="insight" aria-labelledby="insight-title">
@@ -46,14 +51,35 @@ function InsightSection({ variant }: { variant: PortalVariant }) {
         <Card className="feature-panel insight-panel reveal" role="article" variant="outlined">
           <div className="insight-body">
             <div className="panel-block">
-              <div className="block-title"><Typography.Text strong>每日推送</Typography.Text></div>
-              <div className="topic-cloud">
-                {topics.map((topic) => (
-                  <Tag className={`topic${topic.accent ? " topic-accent" : ""}`} key={topic.label}>
-                    {topic.label}
-                  </Tag>
-                ))}
+              <div className="block-title"><Typography.Text strong>每日bot推送</Typography.Text></div>
+              <div className="topic-cloud" role="group" aria-label="选择每日bot推送主题">
+                {portalContent.topics.map((topic) => {
+                  const selected = activeTopic === topic.label;
+                  return (
+                    <Button
+                      className={`topic-button${topic.accent ? " topic-accent" : ""}${selected ? " is-active" : ""}`}
+                      key={topic.label}
+                      aria-pressed={selected}
+                      aria-controls="topic-preview"
+                      onClick={() => setActiveTopic(topic.label)}
+                    >
+                      {topic.label}
+                    </Button>
+                  );
+                })}
               </div>
+              {(() => {
+                const topic = portalContent.topics.find((item) => item.label === activeTopic) || portalContent.topics[0];
+                return (
+                  <div className="topic-preview" id="topic-preview" role="status">
+                    <Image className="topic-preview-image" src={assetUrl(topic.image)} alt={topic.imageAlt} preview={false} />
+                    <div className="topic-preview-copy">
+                      <Typography.Text strong>{topic.label}</Typography.Text>
+                      <Typography.Paragraph>{topic.intro}</Typography.Paragraph>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
             <div className="panel-block knowledge-block">
               <div className="block-title"><Typography.Text strong>知识库</Typography.Text></div>
@@ -68,7 +94,14 @@ function InsightSection({ variant }: { variant: PortalVariant }) {
                       <Typography.Text strong>{item.title}</Typography.Text>
                       <Typography.Text className="knowledge-detail" type="secondary">{item.detail}</Typography.Text>
                     </div>
-                    <span className="knowledge-arrow" aria-hidden="true">→</span>
+                    <Button
+                      className="knowledge-open"
+                      type="text"
+                      aria-label={`打开${item.title}资料`}
+                      onClick={() => window.open(item.url, "_blank", "noopener,noreferrer")}
+                    >
+                      <span aria-hidden="true">→</span>
+                    </Button>
                   </List.Item>
                 )}
               />
@@ -81,19 +114,47 @@ function InsightSection({ variant }: { variant: PortalVariant }) {
 }
 
 function CommunitySection() {
+  const [activeQr, setActiveQr] = useState<string | null>(null);
+
   return (
     <section className="community section" id="community" aria-labelledby="community-title">
       <div className="shell">
         <div className="section-head reveal">
-          <div><p className="section-index">社群服务</p><Typography.Title id="community-title" level={2}>找到同频的人<br />找到能帮上忙的人</Typography.Title></div>
+          <div><p className="section-index">子群服务</p><Typography.Title id="community-title" level={2}>找到同频的人<br />找到能帮上忙的人</Typography.Title></div>
           <Typography.Paragraph>在投资、金融工具、工作生活的细分圈子里，让信息交流都变成真实的连接</Typography.Paragraph>
         </div>
         <div className="service-groups service-panel reveal">
-          {communityGroups.map((group) => (
+          {portalContent.communityGroups.map((group) => (
             <Card className="service-group" role="group" aria-label={group.title} key={group.title} variant="outlined">
               <div className="service-heading"><div><Typography.Title level={5}>{group.title}</Typography.Title><Typography.Text type="secondary">{group.subtitle}</Typography.Text></div></div>
               <div className="community-links">
-                {group.links.map((link) => <Tag className="community-tag" key={link}><Typography.Text strong>{link}</Typography.Text></Tag>)}
+                {group.links.map((link) => (
+                  <Popover
+                    key={link.label}
+                    open={activeQr === link.label}
+                    onOpenChange={(open) => {
+                      if (open) {
+                        setActiveQr(link.label);
+                      } else {
+                        setActiveQr((current) => current === link.label ? null : current);
+                      }
+                    }}
+                    trigger={["hover", "click"]}
+                    placement="top"
+                    mouseEnterDelay={0.12}
+                    content={(
+                      <div className="community-popover-content">
+                        <Image src={assetUrl(link.qrImage)} alt={link.qrAlt} preview={false} />
+                        <Typography.Text>扫码加入{link.label}</Typography.Text>
+                      </div>
+                    )}
+                  >
+                    <Button className="community-tag" aria-label={`${link.label}，查看进群二维码`}>
+                      <Typography.Text strong>{link.label}</Typography.Text>
+                      <span aria-hidden="true">↗</span>
+                    </Button>
+                  </Popover>
+                ))}
               </div>
             </Card>
           ))}
@@ -125,6 +186,9 @@ function MutualAidSection() {
 }
 
 export default function PortalPage({ variant }: { variant: PortalVariant }) {
+  const carouselRef = useRef<CarouselRef>(null);
+  const autoplayEnabled = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   useEffect(() => {
     const reveals = [...document.querySelectorAll<HTMLElement>(".reveal")];
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -153,12 +217,37 @@ export default function PortalPage({ variant }: { variant: PortalVariant }) {
     };
   }, []);
 
+  useEffect(() => {
+    const syncCarouselToHash = () => {
+      if (window.location.hash === "#community-invites") carouselRef.current?.goTo(1);
+      if (window.location.hash === "#home") carouselRef.current?.goTo(0);
+    };
+
+    window.addEventListener("hashchange", syncCarouselToHash);
+    syncCarouselToHash();
+    return () => window.removeEventListener("hashchange", syncCarouselToHash);
+  }, []);
+
   return (
     <>
       <a className="skip-link" href="#main">跳到主要内容</a>
       <SiteHeader variant={variant} />
       <main id="main">
-        <HeroSection />
+        <Carousel
+          ref={carouselRef}
+          className="portal-top-carousel"
+          aria-label="品牌介绍与加入社群轮播"
+          arrows
+          dots
+          autoplay={autoplayEnabled}
+          pauseOnHover
+          adaptiveHeight
+          accessibility
+        >
+          <div className="portal-carousel-slide"><CommunityInviteSection /></div>
+          <div className="portal-carousel-slide"><HeroSection /></div>
+
+        </Carousel>
         <InsightSection variant={variant} />
         <CommunitySection />
         <MutualAidSection />

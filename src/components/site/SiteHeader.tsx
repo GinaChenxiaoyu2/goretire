@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Avatar, Menu, Typography } from "antd";
 import { Link } from "react-router-dom";
-import { navigation, type PortalVariant } from "../../data/portalContent";
+import { portalContent, type PortalVariant } from "../../data/portalContent";
 
 export default function SiteHeader({ variant }: { variant: PortalVariant }) {
   const [activeSection, setActiveSection] = useState("#home");
@@ -39,9 +39,9 @@ export default function SiteHeader({ variant }: { variant: PortalVariant }) {
 
   const brand = (
     <>
-      <Avatar className="brand-symbol" size={38} aria-hidden="true">退</Avatar>
-      <Typography.Text className="brand-name" strong>一起提前退休</Typography.Text>
-      <Typography.Text className="brand-caption">大厂社区</Typography.Text>
+      <Avatar className="brand-symbol" size={38} aria-hidden="true">{portalContent.brand.symbol}</Avatar>
+      <Typography.Text className="brand-name" strong>{portalContent.brand.name}</Typography.Text>
+      <Typography.Text className="brand-caption">{portalContent.brand.caption}</Typography.Text>
     </>
   );
 
@@ -49,16 +49,16 @@ export default function SiteHeader({ variant }: { variant: PortalVariant }) {
     <header className="site-header" data-header>
       <div className="shell header-inner">
         {variant === "ali" ? (
-          <Link className="nav-brand" to="/" aria-label="一起提前退休 大厂社区，回到主页">{brand}</Link>
+          <Link className="nav-brand" to="/" aria-label={`${portalContent.brand.name} ${portalContent.brand.caption}，回到主页`}>{brand}</Link>
         ) : (
-          <a className="nav-brand" href="#home" aria-label="一起提前退休 大厂社区，回到页面顶部">{brand}</a>
+          <a className="nav-brand" href="#home" aria-label={`${portalContent.brand.name} ${portalContent.brand.caption}，回到页面顶部`}>{brand}</a>
         )}
         <Menu
           className="top-nav"
           aria-label="主要导航"
           mode="horizontal"
           selectedKeys={[activeSection]}
-          items={navigation.map((item) => ({ key: item.href, label: <a href={item.href}>{item.label}</a> }))}
+          items={portalContent.navigation.map((item) => ({ key: item.href, label: <a href={item.href}>{item.label}</a> }))}
           onClick={({ key }) => setActiveSection(key)}
         />
       </div>
