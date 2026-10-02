@@ -139,17 +139,35 @@ function CommunitySection() {
                         setActiveQr((current) => current === link.label ? null : current);
                       }
                     }}
-                    trigger={["hover", "click"]}
+                    trigger={["hover"]}
                     placement="top"
                     mouseEnterDelay={0.12}
                     content={(
-                      <div className="community-popover-content">
-                        <Image src={assetUrl(link.qrImage)} alt={link.qrAlt} preview={false} />
-                        <Typography.Text>扫码加入{link.label}</Typography.Text>
-                      </div>
+                      "url" in link && link.url && !("qrPopover" in link && link.qrPopover) ? (
+                        <div className="community-popover-content">
+                          <Typography.Link
+                            className="community-popover-link"
+                            onClick={(event) => {
+                              event.preventDefault();
+                              window.open(link.url, "_blank", "noopener,noreferrer");
+                            }}
+                          >
+                            点击查看详情
+                          </Typography.Link>
+                        </div>
+                      ) : (
+                        <div className="community-popover-content">
+                          <Image src={assetUrl(link.qrImage)} alt={link.qrAlt} preview={false} />
+                          <Typography.Text>钉钉扫码加入{link.label}</Typography.Text>
+                        </div>
+                      )
                     )}
                   >
-                    <Button className="community-tag" aria-label={`${link.label}，查看进群二维码`}>
+                    <Button
+                      className="community-tag"
+                      aria-label={"url" in link && link.url ? `${link.label}，打开详情页` : `${link.label}，查看进群二维码`}
+                      onClick={"url" in link && link.url ? () => window.open(link.url, "_blank", "noopener,noreferrer") : undefined}
+                    >
                       <Typography.Text strong>{link.label}</Typography.Text>
                       <span aria-hidden="true">↗</span>
                     </Button>

@@ -5,6 +5,7 @@
   "scripts": {
     "start": "webpack serve --mode development",
     "build": "node scripts/build-static.mjs",
+    "preview": "python3 -m http.server 8775 --directory dist",
     "test": "npm run build && node tests/verify-site.mjs",
     "typecheck": "tsc --noEmit"
   },

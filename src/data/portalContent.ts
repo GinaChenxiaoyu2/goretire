@@ -4,7 +4,7 @@ export const portalContent = {
   brand: {
     name: "一起提前退休",
     caption: "大厂社区",
-    symbol: "退"
+    symbol: "休"
   },
   navigation: [
     { href: "#home", label: "Slogan" },
@@ -37,30 +37,33 @@ export const portalContent = {
       title: "每日交流",
       subtitle: "一起聊市场，也聊变化",
       links: [
-        { label: "A股交流", qrImage: "assets/ali-community-qr.png", qrAlt: "A股交流社群二维码" },
-        { label: "港美股交流", qrImage: "assets/ali-community-qr.png", qrAlt: "港美股交流社群二维码" },
-        { label: "AI 交流", qrImage: "assets/ali-community-qr.png", qrAlt: "AI 交流社群二维码" }
+        { label: "A股交流", qrImage: "assets/groups-agujiaoliu.jpg", qrAlt: "A股交流社群二维码" },
+        { label: "港美股交流", qrImage: "assets/groups-gangmeigujiaoliu.png", qrAlt: "港美股交流社群二维码" },
+        { label: "AI 交流", qrImage: "assets/groups-aijiaoliu.jpg", qrAlt: "AI 交流社群二维码" }
       ]
     },
     {
       title: "金融工具",
       subtitle: "理解工具，理性做选择",
       links: [
-        { label: "银行咨询", qrImage: "assets/ali-community-qr.png", qrAlt: "银行咨询社群二维码" },
-        { label: "融资服务", qrImage: "assets/ali-community-qr.png", qrAlt: "融资服务社群二维码" },
-        { label: "节税专区", qrImage: "assets/ali-community-qr.png", qrAlt: "节税专区社群二维码" },
-        { label: "香港港险", qrImage: "assets/ali-community-qr.png", qrAlt: "香港港险社群二维码" }
+        { label: "信贷资源汇总", url: "https://alidocs.dingtalk.com/i/p/O1pMzN6O07ezBnePqWXwPVvj98E19m31", qrImage: "assets/ali-community-qr.png", qrAlt: "信贷资源汇总社群二维码" },
+        { label: "融资服务", url: "https://alidocs.dingtalk.com/notable/share/form/v014j6OJ5PzGG5YEq3p_dv19yqvsgs3oebp3pcjys_1qX0QQ0?source=link", qrImage: "assets/ali-community-qr.png", qrAlt: "融资服务社群二维码" },
+        { label: "节税专区", url: "https://alidocs.dingtalk.com/i/nodes/NZQYprEoWobMqeRpCqyRp7Xz81waOeDk?utm_scene=team_space", qrImage: "assets/ali-community-qr.png", qrAlt: "节税专区社群二维码" },
+        { label: "港险避坑", url: "https://alidocs.dingtalk.com/i/nodes/P7QG4Yx2Jp3jl702Hg01n16bV9dEq3XD?utm_scene=team_space", qrImage: "assets/ali-community-qr.png", qrAlt: "港险避坑社群二维码" },
+        { label: "港美股交流", url: "https://alidocs.dingtalk.com/i/nodes/XPwkYGxZV3y5vRlwTprqlYjE8AgozOKL?utm_scene=team_space", qrImage: "assets/ali-community-qr.png", qrAlt: "港美股开户社群二维码" },
+        { label: "A股证券开户", url: "https://alidocs.dingtalk.com/i/nodes/kDnRL6jAJMDrw3bztXxjpRZRVyMoPYe1?utm_scene=team_space", qrImage: "assets/ali-community-qr.png", qrAlt: "A股证券开户社群二维码" }
+
       ]
     },
     {
       title: "工作生活",
       subtitle: "让校友关系产生真实价值",
       links: [
-        { label: "校友租房", qrImage: "assets/ali-community-qr.png", qrAlt: "校友租房社群二维码" },
-        { label: "招聘内推", qrImage: "assets/ali-community-qr.png", qrAlt: "招聘内推社群二维码" },
-        { label: "香港身份 DIY", qrImage: "assets/ali-community-qr.png", qrAlt: "香港身份 DIY 社群二维码" },
-        { label: "别墅轰趴", qrImage: "assets/ali-community-qr.png", qrAlt: "别墅轰趴社群二维码" },
-        { label: "育儿交流", qrImage: "assets/ali-community-qr.png", qrAlt: "育儿交流社群二维码" }
+        { label: "校友租房", url: "https://goretire.cn/ali/house/#/", qrPopover: true, qrImage: "assets/groups-xiaoyouzufang.jpg", qrAlt: "校友租房社群二维码" },
+        { label: "招聘内推", url: "https://www.axureshow.com/project/puAKIzIU/", qrImage: "assets/ali-community-qr.png", qrAlt: "招聘内推社群二维码" },
+        { label: "香港身份 DIY", qrImage: "assets/groups-xianggangshenfen.png", qrAlt: "香港身份 DIY 社群二维码" },
+        { label: "团建轰趴", qrImage: "assets/groups-bieshuhongpa.jpg", qrAlt: "团建轰趴社群二维码" },
+        { label: "育儿交流", qrImage: "assets/groups-yuerjiaoliu.png", qrAlt: "育儿交流社群二维码" }
       ]
     }
   ],
@@ -68,7 +71,8 @@ export const portalContent = {
     tagline: "提升认知 · 拉平信息差 · 互助避坑 · 善用金融工具 · 探索更自由人生",
     qrCodes: [
       {
-        label: "扫码加入总群",
+        label: "钉钉扫码加入",
+        badge: "仅限阿里校友",
         image: "assets/ali-community-qr.png",
         alt: "一起提前退休总群二维码",
         notes: [
@@ -76,9 +80,13 @@ export const portalContent = {
           "阿里钉/蚂蚁钉申请可快速审批，个人钉申请需备注阿里身份信息"
         ]
       },
-      { label: "关注我们", image: "wxpic.png", alt: "提钱退休笔记微信公众号二维码" }
+      {
+        qrImage: "assets/wechat-qrcode-only.jpg",
+        qrAlt: "提钱退休笔记公众号二维码",
+        searchImage: "assets/hiorizental-wechat.jpg",
+        searchAlt: "微信搜一搜 提钱退休笔记"
+      }
     ],
-    // followTitle: "关注我们",
     filing: { label: "浙ICP备2026071844号-1", url: "https://beian.miit.gov.cn/" }
   }
 } as const;

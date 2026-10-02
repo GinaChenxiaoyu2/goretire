@@ -180,6 +180,8 @@ button, input, textarea, select { font: inherit; }
 .community-popover-content .ant-image { display: block; width: 188px; }
 .community-popover-content .ant-image-img { display: block; width: 100%; height: 188px; object-fit: contain; }
 .community-popover-content .ant-typography { color: var(--muted); font-size: var(--text-sm); }
+.community-popover-content .community-popover-link.ant-typography { color: var(--orange-deep); font-size: 14px; font-weight: 700; }
+.community-popover-content .community-popover-link.ant-typography:hover { color: #a93d00; }
 .risk-note { margin: 17px 0 0; color: #746b63; font-size: 13px; text-align: right; }
 
 .mutual-aid { padding: 78px 0 82px; background: #fffdfb; }
@@ -202,12 +204,17 @@ button, input, textarea, select { font: inherit; }
 .community-invites-heading .section-index { margin-bottom: 8px; }
 .community-invites-heading h2 { margin: 0; color: var(--ink); font-size: 30px; font-weight: 800; line-height: 1.3; }
 .community-invites-heading > .ant-typography { max-width: 400px; margin: 0 0 4px; color: var(--muted); font-size: var(--text-base); }
-.community-invites-heading .invite-follow-title { margin: 0 0 4px; color: var(--ink); font-size: 20px; font-weight: 750; }
 .community-invites-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 20px; }
 .community-invite-card { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); align-items: center; justify-items: center; gap: 22px; min-height: 264px; padding: 20px 26px; border: 1px solid #ffd0ae; border-radius: 14px; background: rgba(255, 255, 255, .84); box-shadow: 0 12px 28px rgba(94, 48, 17, .07); }
 .community-invite-card img { display: block; width: min(100%, 220px); height: 220px; object-fit: contain; border-radius: 8px; }
-.community-invite-card:nth-child(2) img { width: min(100%, 300px); height: auto; max-height: 170px; }
+.community-invite-card:nth-child(2) { display: flex; align-items: center; justify-content: center; }
+.community-invite-card:nth-child(2) .invite-wechat { display: flex; align-items: center; justify-content: center; gap: 26px; flex-wrap: wrap; }
+.community-invite-card:nth-child(2) .invite-wechat-qr { width: 170px; height: 170px; object-fit: contain; flex: 0 0 auto; }
+.community-invite-card:nth-child(2) .invite-wechat-search { width: auto; height: 72px; flex: 0 0 auto; }
 .community-invite-card .ant-typography { color: var(--ink); font-size: 18px; font-weight: 750; text-align: center; }
+.community-invite-card .invite-label-row { display: flex; align-items: center; }
+.community-invite-card .invite-label-row .ant-typography { line-height: 22px; }
+.community-invite-card .invite-badge.ant-tag { margin: 0 0 0 8px; padding: 1px 10px; border-radius: 999px; border-color: #ffcfad; background: var(--orange-soft); color: #a93d00; font-size: 12px; font-weight: 700; line-height: 20px; }
 .community-invite-card .invite-copy { display: grid; justify-items: center; align-content: center; gap: 12px; }
 .community-invite-card .invite-notes { margin: 0; padding: 0 0 0 18px; color: #756a62; font-size: 13px; line-height: 1.7; text-align: left; list-style: decimal; }
 .community-invite-card .invite-notes li { padding-left: 2px; }
@@ -256,7 +263,9 @@ button, input, textarea, select { font: inherit; }
   .community-invites-grid { gap: 14px; }
   .community-invite-card { grid-template-columns: minmax(0, 180px) minmax(0, 1fr); gap: 18px; padding: 18px; }
   .community-invite-card img { width: 180px; height: 180px; }
-  .community-invite-card:nth-child(2) img { width: min(100%, 280px); height: auto; }
+  .community-invite-card:nth-child(2) .invite-wechat { gap: 18px; }
+  .community-invite-card:nth-child(2) .invite-wechat-qr { width: 150px; height: 150px; }
+  .community-invite-card:nth-child(2) .invite-wechat-search { height: 60px; }
 }
 
 @media (max-width: 700px) {
@@ -311,7 +320,9 @@ button, input, textarea, select { font: inherit; }
   .community-invites-grid { grid-template-columns: 1fr; }
   .community-invite-card { grid-template-columns: 1fr; gap: 12px; text-align: center; }
   .community-invite-card img { width: min(100%, 220px); height: 220px; }
-  .community-invite-card:nth-child(2) img { width: min(100%, 300px); height: auto; }
+  .community-invite-card:nth-child(2) .invite-wechat { flex-direction: column; gap: 14px; }
+  .community-invite-card:nth-child(2) .invite-wechat-qr { width: 140px; height: 140px; }
+  .community-invite-card:nth-child(2) .invite-wechat-search { height: 56px; }
   .mutual-aid { padding: 62px 0 60px; }
   .mutual-card { grid-template-columns: 1fr; gap: 34px; min-height: 0; padding: 42px 24px; }
   .mutual-copy p:last-child { font-size: 15px; }
