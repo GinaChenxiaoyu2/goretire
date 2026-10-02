@@ -120,7 +120,7 @@ function CommunitySection() {
     <section className="community section" id="community" aria-labelledby="community-title">
       <div className="shell">
         <div className="section-head reveal">
-          <div><p className="section-index">子群服务</p><Typography.Title id="community-title" level={2}>找到同频的人<br />找到能帮上忙的人</Typography.Title></div>
+          <div><p className="section-index">子群服务</p><Typography.Title id="community-title" level={2}>找到同频的人<br />一起交流心得</Typography.Title></div>
           <Typography.Paragraph>在投资、金融工具、工作生活的细分圈子里，让信息交流都变成真实的连接</Typography.Paragraph>
         </div>
         <div className="service-groups service-panel reveal">
