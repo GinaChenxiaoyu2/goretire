@@ -129,7 +129,8 @@ button, input, textarea, select { font: inherit; }
 
 .company-networks { padding: 78px 0 10px; background: #fffdfb; }
 .company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; }
-.company-grid.is-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.company-grid.is-single { grid-template-columns: minmax(0, 1fr); }
+.company-grid.is-single .company-card .ant-card-body { gap: 40px; padding: 26px 34px; }
 .company-card.ant-card { border-color: var(--line); border-radius: 14px; background: linear-gradient(120deg, #fff 0%, #fffaf5 100%); box-shadow: 0 12px 28px rgba(94, 48, 17, .07); transition: transform .2s ease-out, box-shadow .2s ease-out; }
 .company-card.ant-card:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(94, 48, 17, .11); }
 .company-card .ant-card-body { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 22px; align-items: center; padding: 24px 26px; }
@@ -141,7 +142,6 @@ button, input, textarea, select { font: inherit; }
 .company-link > span[aria-hidden="true"] { transition: transform .18s ease-out; }
 .company-qr { display: grid; justify-items: center; gap: 8px; }
 .company-qr img { display: block; width: 120px; height: 120px; max-width: 100%; padding: 5px; border: 1px solid #f3e3d3; border-radius: 12px; background: white; object-fit: contain; }
-.company-qr-more { display: grid; place-items: center; width: 120px; height: 120px; border: 1px dashed #e0c3a4; border-radius: 12px; color: #bb9a78; background: #fffaf3; font-size: 15px; font-weight: 750; line-height: 1.5; text-align: center; letter-spacing: .08em; }
 .company-qr .ant-typography { font-size: 12px; }
 .company-card { height: 100%; }
 .company-carousel .company-slide .company-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -371,7 +371,7 @@ button, input, textarea, select { font: inherit; }
   .risk-note { text-align: left; }
   .company-carousel .company-slide { padding: 2px 10px; }
   .company-carousel .company-slide .company-grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  .company-grid.is-pair { grid-template-columns: minmax(0, 1fr); }
+  .company-grid.is-single .company-card .ant-card-body { gap: 20px; padding: 14px 16px; }
   .company-carousel .slick-arrow { width: 30px; height: 30px; }
   .company-carousel .slick-prev { left: -8px; }
   .company-carousel .slick-next { right: -8px; }
@@ -407,6 +407,7 @@ button, input, textarea, select { font: inherit; }
   .invite-slide-content .community-invite-card > img { width: min(100%, 170px); height: 170px; }
   .invite-slide-content .community-invite-card.invite-wechat-card .invite-wechat-qr { width: 140px; height: 140px; }
   .invite-slide-content .community-invite-card.invite-wechat-card .invite-wechat-search { height: 68px; padding: 9px 16px; }
+  .invite-slide-content .community-invite-card.invite-wechat-card .invite-wechat-search-long { width: 100%; max-width: 300px; height: auto; padding: 8px 10px; }
   .invite-slide-content .invite-label-row { justify-content: center; }
   .mutual-aid { padding: 62px 0 60px; }
   .mutual-card { grid-template-columns: 1fr; gap: 26px; min-height: 0; padding: 32px 20px; }

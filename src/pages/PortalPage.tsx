@@ -2,7 +2,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Avatar, Button, Card, Carousel, Image, List, Popover, Typography } from "antd";
 import type { CarouselRef } from "antd/es/carousel";
-import CommunityInviteSection, { buildCommunityInviteSlides, getInviteSlideCount } from "../components/site/CommunityInviteSection";
+import CommunityInviteSection, { buildCommunityInviteSlides } from "../components/site/CommunityInviteSection";
 import HeroVisual from "../components/site/HeroVisual";
 import SiteFooter from "../components/site/SiteFooter";
 import SiteHeader from "../components/site/SiteHeader";
@@ -109,6 +109,7 @@ function InsightSection({ variant }: { variant: PortalVariant }) {
 function CommunitySection({ variant }: { variant: PortalVariant }) {
   const [activeQr, setActiveQr] = useState<string | null>(null);
   const isHome = variant === "home";
+  const isMobile = window.matchMedia("(max-width: 700px)").matches;
 
   return (
     <section className="community section" id="community" aria-labelledby="community-title">
@@ -141,7 +142,7 @@ function CommunitySection({ variant }: { variant: PortalVariant }) {
                       <span aria-hidden="true">↗</span>
                     </Button>
                   );
-                  if (!hasQr) {
+                  if (!hasQr || isMobile) {
                     return <Fragment key={link.label}>{button}</Fragment>;
                   }
                   return (
@@ -190,18 +191,6 @@ function CompanyNetworkSection() {
     pages.push(companies.slice(i, i + 3));
   }
 
-  const renderMoreCard = showAll ? null : (
-    <Card className="company-card company-card-more" key="company-more" variant="outlined">
-      <div className="company-copy">
-        <Typography.Text className="company-name" strong>更多大厂社群接入中…</Typography.Text>
-        <Typography.Paragraph className="company-desc">字节 / 携程 / 得物 / 小米 / 海康等校友圈子正在筹备，敬请期待</Typography.Paragraph>
-      </div>
-      <div className="company-qr">
-        <div className="company-qr-more" aria-hidden="true">敬请<br />期待</div>
-      </div>
-    </Card>
-  );
-
   const renderCard = (company: (typeof companies)[number]) => (
     <Card className="company-card" key={company.id} variant="outlined">
       <div className="company-copy">
@@ -227,9 +216,9 @@ function CompanyNetworkSection() {
         <div className="section-head reveal">
           <div>
             <p className="section-index">大厂社群</p>
-            <Typography.Title id="company-networks-title" level={2}>按公司找到组织<br />专属圈子持续扩展</Typography.Title>
+            <Typography.Title id="company-networks-title" level={2}>{showAll ? <>按公司找到组织<br />专属圈子持续扩展</> : <>按公司找到组织<br />阿里校友专属圈子</>}</Typography.Title>
           </div>
-          <Typography.Paragraph>{showAll ? "目前已覆盖阿里巴巴/字节/携程/得物/小米/海康... 更多大厂的专属社群正在路上" : "目前开放阿里巴巴专属社群，更多大厂的专属社群正在路上"}</Typography.Paragraph>
+          <Typography.Paragraph>{showAll ? "目前已覆盖阿里巴巴/字节/携程/得物/小米/海康... 更多大厂的专属社群正在路上" : "阿里巴巴专属社群入口，6000+ 校友在这里互助同行"}</Typography.Paragraph>
         </div>
         {pages.length > 1 ? (
           <Carousel
@@ -259,9 +248,8 @@ function CompanyNetworkSection() {
             ))}
           </Carousel>
         ) : (
-          <div className={`company-grid reveal${showAll ? "" : " is-pair"}`}>
+          <div className={`company-grid reveal${showAll ? "" : " is-single"}`}>
             {companies.map(renderCard)}
-            {renderMoreCard}
           </div>
         )}
       </div>
@@ -301,7 +289,8 @@ export default function PortalPage({ variant }: { variant: PortalVariant }) {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  const heroSlideIndex = isMobile ? getInviteSlideCount(variant) : 1;
+  const heroSlideIndex = isMobile ? 0 : 1;
+  const inviteStartIndex = isMobile ? 1 : 0;
 
   useEffect(() => {
     const reveals = [...document.querySelectorAll<HTMLElement>(".reveal")];
@@ -333,14 +322,14 @@ export default function PortalPage({ variant }: { variant: PortalVariant }) {
 
   useEffect(() => {
     const syncCarouselToHash = () => {
-      if (window.location.hash === "#community-invites") carouselRef.current?.goTo(0);
+      if (window.location.hash === "#community-invites") carouselRef.current?.goTo(inviteStartIndex);
       if (window.location.hash === "#home") carouselRef.current?.goTo(heroSlideIndex);
     };
 
     window.addEventListener("hashchange", syncCarouselToHash);
     syncCarouselToHash();
     return () => window.removeEventListener("hashchange", syncCarouselToHash);
-  }, [heroSlideIndex]);
+  }, [heroSlideIndex, inviteStartIndex]);
 
   return (
     <>
@@ -359,11 +348,16 @@ export default function PortalPage({ variant }: { variant: PortalVariant }) {
           accessibility
         >
           {isMobile ? (
-            buildCommunityInviteSlides(variant)
+            [
+              <div className="portal-carousel-slide" key="hero-mobile"><HeroSection /></div>,
+              ...buildCommunityInviteSlides(variant)
+            ]
           ) : (
-            <div className="portal-carousel-slide"><CommunityInviteSection variant={variant} /></div>
+            [
+              <div className="portal-carousel-slide" key="invite"><CommunityInviteSection variant={variant} /></div>,
+              <div className="portal-carousel-slide" key="hero"><HeroSection /></div>
+            ]
           )}
-          <div className="portal-carousel-slide"><HeroSection /></div>
         </Carousel>
         {variant === "home" && <CompanyNetworkSection />}
         <InsightSection variant={variant} />

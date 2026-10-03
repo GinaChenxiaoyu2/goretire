@@ -87,7 +87,10 @@ export function buildCommunityInviteSlides(variant: PortalVariant): ReactNode[] 
               <Typography.Title level={2}>{wechatHeading}</Typography.Title>
             </div>
             <article className="community-invite-card invite-wechat-card">
-              {renderWechatContent(qr)}
+              <div className="invite-wechat">
+                <img className="invite-wechat-qr" src={assetUrl(qr.qrImage)} alt={qr.qrAlt} />
+                <img className="invite-wechat-search invite-wechat-search-long" src={assetUrl("assets/wechat-long.png")} alt={qr.searchAlt} />
+              </div>
             </article>
           </div>
         </section>
